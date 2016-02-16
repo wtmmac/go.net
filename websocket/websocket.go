@@ -213,6 +213,22 @@ func (ws *Conn) Write(msg []byte) (n int, err error) {
 	return n, err
 }
 
+// WritePong心跳
+func (ws *Conn) WritePong(msg []byte) (n int, err error) {
+	ws.wio.Lock()
+	defer ws.wio.Unlock()
+	w, err := ws.frameWriterFactory.NewFrameWriter(PongFrame)
+	if err != nil {
+		return 0, err
+	}
+	n, err = w.Write(msg)
+	w.Close()
+	if err != nil {
+		return n, err
+	}
+	return n, err
+}
+
 // Close implements the io.Closer interface.
 func (ws *Conn) Close() error {
 	err := ws.frameHandler.WriteClose(ws.defaultCloseStatus)
