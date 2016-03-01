@@ -109,6 +109,6 @@ func checkOrigin(config *Config, req *http.Request) (err error) {
 
 // ServeHTTP implements the http.Handler interface for a WebSocket
 func (h Handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	s := Server{Handler: h, Handshake: checkOrigin}
+	s := Server{Handler: h, Handshake: nil}
 	s.serveWebSocket(w, req)
 }
