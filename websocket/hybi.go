@@ -468,6 +468,7 @@ type hybiServerHandshaker struct {
 	accept []byte
 }
 
+// 协议握手过程
 func (c *hybiServerHandshaker) ReadHandshake(buf *bufio.Reader, req *http.Request) (code int, err error) {
 	c.Version = ProtocolVersionHybi13
 	if req.Method != "GET" {
@@ -486,7 +487,7 @@ func (c *hybiServerHandshaker) ReadHandshake(buf *bufio.Reader, req *http.Reques
 	}
 	version := req.Header.Get("Sec-Websocket-Version")
 	switch version {
-	case "13":
+	case "13", "7", "8":
 		c.Version = ProtocolVersionHybi13
 	default:
 		return http.StatusBadRequest, ErrBadWebSocketVersion

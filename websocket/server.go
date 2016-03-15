@@ -80,6 +80,7 @@ func (s Server) serveWebSocket(w http.ResponseWriter, req *http.Request) {
 	// the client did not send a handshake that matches with protocol
 	// specification.
 	defer rwc.Close()
+	// 创建websocket连接
 	conn, err := newServerConn(rwc, buf, req, &s.Config, s.Handshake)
 	if err != nil {
 		return
@@ -87,6 +88,7 @@ func (s Server) serveWebSocket(w http.ResponseWriter, req *http.Request) {
 	if conn == nil {
 		panic("unexpected nil conn")
 	}
+	// 处理websocket连接
 	s.Handler(conn)
 }
 
